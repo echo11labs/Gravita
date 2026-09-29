@@ -174,22 +174,32 @@ function EyeglassesCollection() {
 
   return (
     <div className="mx-auto max-w-[1440px] px-4 pb-16 sm:px-6 lg:px-8 lg:pb-28">
-      <header data-motion-section className="relative overflow-hidden pb-10 pt-14 sm:pb-14 sm:pt-20 lg:pb-20 lg:pt-28">
-        <div className="relative z-10 grid grid-cols-1 gap-10 lg:grid-cols-12 lg:items-end">
-          <div className="lg:col-span-8">
-            <p className="mb-5 font-sans text-xs uppercase tracking-[0.18em] text-foreground/50">
-              Eyeglasses · the optical edit
+      <header
+        data-motion-section
+        className="relative isolate -mx-4 mb-8 sm:mb-12 min-h-[80vh] sm:min-h-[85vh] overflow-hidden sm:-mx-6 lg:-mx-8 lg:mb-16"
+      >
+        <div
+          data-motion-media
+          aria-hidden="true"
+          className="absolute inset-0 -z-20 bg-[url('/images/eyeglasses-hero-mobile.png')] bg-cover bg-center lg:bg-[url('/images/eyeglasses-hero-desktop.png')]"
+        />
+        <div
+          aria-hidden="true"
+          className="absolute inset-0 -z-10 bg-gradient-to-t from-background/90 via-background/20 to-transparent lg:bg-gradient-to-r lg:from-background/90 lg:via-background/40 lg:to-transparent"
+        />
+        <div className="relative z-10 flex h-full min-h-[80vh] sm:min-h-[85vh] items-end px-6 pt-32 pb-12 sm:pb-16 lg:px-12 lg:pb-24">
+          <div className="max-w-2xl flex flex-col gap-6 lg:gap-8">
+            <p className="font-sans text-[10px] font-semibold uppercase tracking-[0.2em] text-foreground/50">
+              Eyeglasses — The Optical Edit
             </p>
-            <h1 className="max-w-3xl font-display text-5xl leading-[0.94] tracking-[-0.04em] text-foreground sm:text-6xl lg:text-8xl">
-              Six frames,
-              <br />
-              a clearer start.
+            
+            <h1 className="font-display text-5xl sm:text-6xl lg:text-7xl xl:text-8xl leading-[1.05] tracking-tight text-foreground">
+              Six frames.<br />
+              A clearer start.
             </h1>
-          </div>
-          <div className="max-w-sm border-l border-foreground/20 pb-1 pl-5 lg:col-span-4 lg:ml-auto">
-            <p className="font-sans text-lg leading-relaxed text-foreground/75">
-              A small optical collection built around shape, proportion, and
-              the way a frame lives with you.
+            
+            <p className="max-w-sm font-sans text-sm sm:text-base leading-relaxed text-foreground/70">
+              A curated optical collection built around shape, proportion, and the way a frame lives with you.
             </p>
           </div>
         </div>

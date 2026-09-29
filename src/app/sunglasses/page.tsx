@@ -20,48 +20,37 @@ export default function SunglassesPage() {
     <div className="flex-grow bg-background text-foreground">
 
       {/* ── SECTION 1: Editorial opening ───────────────────────────── */}
-      <section className="relative overflow-hidden bg-foreground px-4 pb-24 pt-28 text-background sm:px-6 sm:pt-36 lg:px-8 lg:pb-28">
-        <div aria-hidden="true" className="pointer-events-none absolute -right-24 top-12 h-[28rem] w-[28rem] rounded-full border border-background/15 sm:-right-16 sm:h-[38rem] sm:w-[38rem]" />
-        <div aria-hidden="true" className="pointer-events-none absolute -right-2 top-40 h-64 w-64 rounded-full border border-background/10 sm:right-32 sm:top-56" />
-        <div className="relative max-w-7xl mx-auto">
-          <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 lg:gap-16 items-end">
+      <section className="relative isolate min-h-[80vh] sm:min-h-[85vh] overflow-hidden bg-foreground text-background">
+        <div
+          data-motion-media
+          aria-hidden="true"
+          className="absolute inset-0 -z-20 bg-[url('/images/sunglasses-hero-mobile.png')] bg-cover bg-center lg:bg-[url('/images/sunglasses-hero-desktop.png')]"
+        />
+        <div aria-hidden="true" className="absolute inset-0 -z-10 bg-gradient-to-t from-foreground/90 via-foreground/20 to-transparent lg:bg-gradient-to-r lg:from-foreground/90 lg:via-foreground/40 lg:to-transparent" />
 
-            {/* Left — headline block */}
-            <div className="lg:col-span-7 space-y-8">
-              <span className="text-xs font-sans tracking-[0.18em] uppercase text-background/55 block">
-                Sunglasses · collection zero one
+        <div className="mx-auto flex h-full min-h-[80vh] sm:min-h-[85vh] max-w-[1440px] items-end px-4 pb-12 pt-32 sm:px-6 sm:pb-16 lg:px-8 lg:pb-24">
+          <div className="grid w-full grid-cols-1 lg:grid-cols-12">
+            <div className="flex flex-col gap-6 lg:gap-8 lg:col-span-8">
+              <span className="font-sans text-[10px] font-semibold uppercase tracking-[0.2em] text-background/50 block">
+                Sunglasses — Collection Zero One
               </span>
-              <h1 className="max-w-3xl font-display text-5xl sm:text-6xl lg:text-8xl tracking-[-0.05em] text-background leading-[0.94]">
+              
+              <h1 className="font-display text-5xl sm:text-6xl lg:text-7xl xl:text-8xl leading-[1.05] tracking-tight text-background">
                 A different view<br className="hidden sm:block" /> of the light.
               </h1>
-              <p className="font-sans text-xl text-background/72 leading-relaxed max-w-lg">
-                Our sunglasses collection is taking shape. We&rsquo;ll have
-                more to show soon.
+              
+              <p className="max-w-sm font-sans text-sm sm:text-base leading-relaxed text-background/70">
+                Our sunglasses collection is taking shape. We&rsquo;ll have more to show soon.
               </p>
+              
               <Link
                 href="/eyeglasses"
-                className="group inline-flex items-center gap-3 border-b border-background/35 pb-2 text-sm font-sans tracking-wide text-background hover:border-background focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-background transition-colors rounded-sm"
+                className="group inline-flex items-center gap-3 border-b border-background/30 pb-2 text-[10px] font-sans font-medium uppercase tracking-[0.15em] text-background hover:border-background focus-visible:outline-none transition-colors self-start mt-2"
               >
-                <span>Explore eyeglasses in the meantime</span>
+                <span>Explore Eyeglasses</span>
                 <ArrowRight className="h-4 w-4 transition-transform motion-safe:group-hover:translate-x-1 shrink-0" aria-hidden="true" />
               </Link>
             </div>
-
-            <div className="lg:col-span-5 hidden lg:flex flex-col gap-8 self-end pb-1">
-              <div className="border-t border-background/20 pt-7 space-y-3">
-                <p className="text-xs font-sans text-background/45 tracking-[0.16em] uppercase">
-                  In development
-                </p>
-                <p className="font-display text-3xl text-background/75 tracking-tight leading-snug max-w-sm">
-                  A quieter lens for brighter days.
-                </p>
-              </div>
-              <div className="flex items-center gap-3 text-xs font-sans tracking-[0.16em] uppercase text-background/45">
-                <span className="h-2 w-2 rounded-full bg-accent" />
-                More to come
-              </div>
-            </div>
-
           </div>
         </div>
       </section>

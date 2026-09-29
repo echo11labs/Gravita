@@ -5,9 +5,8 @@ import { usePathname } from "next/navigation";
 import Lenis from "lenis";
 import gsap from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
-import { useGSAP } from "@gsap/react";
 
-gsap.registerPlugin(useGSAP, ScrollTrigger);
+gsap.registerPlugin(ScrollTrigger);
 
 type MotionMainProps = {
   children: ReactNode;
@@ -35,17 +34,31 @@ export default function MotionMain({ children }: MotionMainProps) {
     };
   }, []);
 
-  useGSAP(
-    () => {
-      const root = mainRef.current;
-      if (!root || window.matchMedia("(prefers-reduced-motion: reduce)").matches) {
-        return;
-      }
+  useEffect(() => {
+    const root = mainRef.current;
+    const isHydrationSensitivePage =
+      pathname.startsWith("/eyeglasses") || pathname.startsWith("/find-your-frame");
+    if (
+      !root ||
+      isHydrationSensitivePage ||
+      window.matchMedia("(prefers-reduced-motion: reduce)").matches
+    ) {
+      return;
+    }
 
-      const headline = root.querySelector<HTMLElement>("h1");
+    let refreshId: number | undefined;
+    const context = gsap.context(() => {
+      const headline = Array.from(root.querySelectorAll<HTMLElement>("h1")).find(
+        (element) => !element.closest("[data-custom-motion]")
+      );
       const sections = Array.from(root.querySelectorAll<HTMLElement>("section, [data-motion-section]"))
-        .filter((section) => !headline || !section.contains(headline));
-      const media = Array.from(root.querySelectorAll<HTMLElement>("[data-motion-media]"));
+        .filter(
+          (section) =>
+            !section.closest("[data-custom-motion]") &&
+            (!headline || !section.contains(headline))
+        );
+      const media = Array.from(root.querySelectorAll<HTMLElement>("[data-motion-media]"))
+        .filter((element) => !element.closest("[data-custom-motion]"));
 
       if (headline) {
         gsap.fromTo(
@@ -93,11 +106,14 @@ export default function MotionMain({ children }: MotionMainProps) {
         );
       });
 
-      const refreshId = window.requestAnimationFrame(() => ScrollTrigger.refresh());
-      return () => window.cancelAnimationFrame(refreshId);
-    },
-    { scope: mainRef, dependencies: [pathname], revertOnUpdate: true }
-  );
+      refreshId = window.requestAnimationFrame(() => ScrollTrigger.refresh());
+    }, root);
+
+    return () => {
+      if (refreshId !== undefined) window.cancelAnimationFrame(refreshId);
+      context.revert();
+    };
+  }, [pathname]);
 
   return (
     <main

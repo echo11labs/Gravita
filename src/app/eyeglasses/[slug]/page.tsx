@@ -3,6 +3,7 @@ import Image from "next/image";
 import Link from "next/link";
 import { ArrowLeft, ArrowRight } from "lucide-react";
 import { FIXTURE_PRODUCTS } from "../fixtures";
+import HowItWearsEffect from "@/components/HowItWearsEffect";
 
 type Props = {
   params: Promise<{ slug: string }>;
@@ -35,82 +36,116 @@ export default async function ProductDetailPage({ params, searchParams }: Props)
   }
 
   return (
-    <div className="min-h-screen bg-background text-foreground px-4 pb-20 pt-8 sm:px-6 lg:px-8 lg:pb-28 lg:pt-12 max-w-[1440px] mx-auto">
-      <div className="mb-8 flex items-center justify-between border-b border-foreground/15 pb-5 lg:mb-10">
-        <Link 
-          href={backHref}
-          className="inline-flex items-center text-sm font-sans tracking-wide text-foreground/70 hover:text-foreground transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-foreground focus-visible:ring-offset-4 focus-visible:ring-offset-background rounded-sm"
-        >
-          <ArrowLeft className="h-4 w-4 mr-2" aria-hidden="true" />
-          <span className="underline underline-offset-4 decoration-transparent hover:decoration-foreground/30 transition-colors">
-            Back to eyeglasses
-          </span>
-        </Link>
-        <span className="text-xs font-sans tracking-[0.16em] uppercase text-foreground/45">Optical study</span>
-      </div>
-
-      <div className="grid grid-cols-1 border border-foreground/15 lg:grid-cols-[1.12fr_0.88fr]">
-        {/* Product Image Column */}
-        <div className="relative aspect-square w-full overflow-hidden bg-[#DEDCD3] lg:aspect-auto lg:min-h-[680px]">
-          <Image 
-            src={product.image}
-            alt={`${product.name} optical frame in ${product.shape} shape, color ${product.color}`}
-            fill
-            sizes="(max-width: 1024px) 100vw, 50vw"
-            className="object-cover object-center mix-blend-multiply"
-            priority
-          />
-          <div className="absolute bottom-0 left-0 right-0 flex items-center justify-between bg-background/90 px-5 py-4 backdrop-blur-sm">
-            <span className="text-xs font-sans tracking-[0.16em] uppercase text-foreground/55">{product.shape.replace("-", " ")}</span>
-            <span className="text-xs font-sans tracking-[0.12em] uppercase text-foreground/55">{product.color}</span>
-          </div>
-        </div>
-
-        {/* Product Details Column */}
-        <div className="flex flex-col justify-center bg-[#F8F6F1] p-7 sm:p-10 lg:p-14 xl:p-20">
-          <div className="mb-8 border-b border-foreground/15 pb-8">
-            <span className="text-xs font-sans tracking-[0.2em] uppercase text-foreground/50 mb-4 block">
-              Eyeglasses
+    <main className="flex-grow bg-background text-foreground">
+      
+      {/* ── SECTION 1: PRODUCT HERO ─────────────────────────────────── */}
+      <section className="px-4 pb-20 pt-28 sm:px-6 sm:pt-32 lg:px-8 lg:pb-24 lg:pt-40 max-w-[1440px] mx-auto">
+        <div className="mb-8 flex items-center justify-between border-b border-foreground/15 pb-5 lg:mb-10">
+          <Link 
+            href={backHref}
+            className="inline-flex items-center text-sm font-sans tracking-wide text-foreground/70 hover:text-foreground transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-foreground focus-visible:ring-offset-4 focus-visible:ring-offset-background rounded-sm"
+          >
+            <ArrowLeft className="h-4 w-4 mr-2" aria-hidden="true" />
+            <span className="underline underline-offset-4 decoration-transparent hover:decoration-foreground/30 transition-colors">
+              Back to eyeglasses
             </span>
-            <h1 className="font-display text-5xl sm:text-6xl lg:text-7xl tracking-[-0.04em] leading-[0.96] mb-5 text-foreground">
-              {product.name}
-            </h1>
-            <p className="font-sans text-xl text-foreground/80 capitalize">
-              {product.shape.replace("-", " ")} optical frame
-            </p>
-            {product.color && (
-              <p className="font-sans text-lg text-foreground/60 mt-2">
-                {product.color}
+          </Link>
+          <span className="text-xs font-sans tracking-[0.16em] uppercase text-foreground/45">Optical study</span>
+        </div>
+
+        <div className="grid grid-cols-1 border border-foreground/15 lg:grid-cols-[1.12fr_0.88fr]">
+          {/* Product Image Column */}
+          <div className="relative aspect-square w-full overflow-hidden bg-[#DEDCD3] lg:aspect-auto lg:min-h-[680px]">
+            <Image 
+              src={product.image}
+              alt={`${product.name} optical frame in ${product.shape} shape, color ${product.color}`}
+              fill
+              sizes="(max-width: 1024px) 100vw, 50vw"
+              className="object-cover object-center mix-blend-multiply"
+              priority
+            />
+            <div className="absolute bottom-0 left-0 right-0 flex items-center justify-between bg-background/90 px-5 py-4 backdrop-blur-sm">
+              <span className="text-xs font-sans tracking-[0.16em] uppercase text-foreground/55">{product.shape.replace("-", " ")}</span>
+              <span className="text-xs font-sans tracking-[0.12em] uppercase text-foreground/55">{product.color}</span>
+            </div>
+          </div>
+
+          {/* Product Details Column */}
+          <div className="flex flex-col justify-center bg-[#F8F6F1] p-7 sm:p-10 lg:p-14 xl:p-20">
+            <div className="mb-8 border-b border-foreground/15 pb-8">
+              <span className="text-xs font-sans tracking-[0.2em] uppercase text-foreground/50 mb-4 block">
+                Eyeglasses
+              </span>
+              <h1 className="font-display text-5xl sm:text-6xl lg:text-7xl tracking-[-0.04em] leading-[0.96] mb-5 text-foreground">
+                {product.name}
+              </h1>
+              <p className="font-sans text-xl text-foreground/80 capitalize">
+                {product.shape.replace("-", " ")} optical frame
               </p>
-            )}
-          </div>
-          
-          <div className="mb-12 border-l-2 border-accent pl-5">
-            <h2 className="text-sm font-sans tracking-[0.14em] uppercase text-foreground/50 mb-3">
-              A considered contour
-            </h2>
-            <p className="font-sans text-lg leading-relaxed text-foreground/80 max-w-lg">
-              A {product.shape.replace("-", " ")} optical frame.{product.color ? ` ${product.color} finish.` : ""}
-            </p>
-          </div>
-          
-          <div className="flex flex-col gap-3 mt-4">
-            <Link 
-              href="/eyeglasses"
-              className="inline-flex items-center justify-between bg-foreground text-background px-6 py-4 text-sm font-medium tracking-wide hover:bg-accent transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-foreground focus-visible:ring-offset-2"
-            >
-              Browse all eyeglasses <ArrowRight className="ml-2 h-4 w-4" aria-hidden="true" />
-            </Link>
+              {product.color && (
+                <p className="font-sans text-lg text-foreground/60 mt-2">
+                  {product.color}
+                </p>
+              )}
+            </div>
             
-            <Link 
-              href={`/eyeglasses?${similarShapesQuery.toString()}`}
-              className="inline-flex items-center justify-between border border-foreground/20 px-6 py-4 text-sm font-medium tracking-wide hover:border-foreground transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-foreground focus-visible:ring-offset-2"
-            >
-              Explore similar shapes <ArrowRight className="ml-2 h-4 w-4" aria-hidden="true" />
-            </Link>
+            <div className="mb-12 border-l-2 border-accent pl-5">
+              <h2 className="text-sm font-sans tracking-[0.14em] uppercase text-foreground/50 mb-3">
+                The frame
+              </h2>
+              <p className="font-sans text-lg leading-relaxed text-foreground/80 max-w-lg">
+                A {product.shape.replace("-", " ")} optical frame.{product.color ? ` ${product.color} finish.` : ""}
+              </p>
+            </div>
+            
+            <div className="flex flex-col gap-3 mt-4">
+              <Link 
+                href="/eyeglasses"
+                className="inline-flex items-center justify-between bg-foreground text-background px-6 py-4 text-sm font-medium tracking-wide hover:bg-accent transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-foreground focus-visible:ring-offset-2"
+              >
+                Browse all eyeglasses <ArrowRight className="ml-2 h-4 w-4" aria-hidden="true" />
+              </Link>
+              
+              <Link 
+                href={`/eyeglasses?${similarShapesQuery.toString()}`}
+                className="inline-flex items-center justify-between border border-foreground/20 px-6 py-4 text-sm font-medium tracking-wide hover:border-foreground transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-foreground focus-visible:ring-offset-2"
+              >
+                Explore similar shapes <ArrowRight className="ml-2 h-4 w-4" aria-hidden="true" />
+              </Link>
+            </div>
           </div>
         </div>
-      </div>
-    </div>
+      </section>
+
+      {/* ── SECTION 2: LIFESTYLE / HOW IT WEARS ──────────────────────── */}
+      {/* 
+        This is a template section that expects per-product lifestyle photography 
+        in a real CMS implementation. Using editorial assets as a placeholder.
+      */}
+      <section className="w-full bg-foreground border-t border-foreground/10 text-background pt-20 lg:pt-28 pb-20 lg:pb-28">
+        <div className="max-w-[1440px] mx-auto px-4 sm:px-6 lg:px-8">
+          
+          <div className="flex flex-col md:flex-row md:items-end justify-between mb-10 lg:mb-16 gap-8">
+            <div className="space-y-4 max-w-2xl">
+              <h2 className="text-xs sm:text-sm font-sans tracking-[0.2em] uppercase text-background/50">
+                In Context
+              </h2>
+              <h3 className="font-display text-4xl sm:text-5xl lg:text-6xl tracking-tight text-background leading-[1.05]">
+                How it wears.
+              </h3>
+            </div>
+            <p className="font-sans text-lg text-background/80 max-w-sm md:text-right leading-relaxed">
+              Form and proportion designed to complement the individual face.
+            </p>
+          </div>
+
+          <div className="relative w-full aspect-[4/5] sm:aspect-[16/9] lg:aspect-[21/9] bg-background/5 overflow-hidden">
+            <HowItWearsEffect imageUrl={product.howItWearsImage || "/images/editorial_desktop.jpg"} />
+          </div>
+
+        </div>
+      </section>
+
+    </main>
   );
 }

@@ -47,9 +47,9 @@ export default function GuidedSelection() {
           </div>
 
           <div className="flex flex-col border-t border-[#F4F1EB]/20">
-            <SelectionRow number="01" label="Face shape" href="/find-your-frame?step=face-shape" />
-            <SelectionRow number="02" label="Frame fit" href="/find-your-frame?step=frame-fit" />
-            <SelectionRow number="03" label="Everyday style" href="/find-your-frame?step=everyday-style" />
+            <SelectionRow number="01" label="Face shape" href="/find-your-frame#face-shape" />
+            <SelectionRow number="02" label="Frame fit" href="/find-your-frame#frame-fit" />
+            <SelectionRow number="03" label="Everyday style" href="/find-your-frame#everyday-style" />
           </div>
         </div>
       </div>
@@ -93,9 +93,9 @@ export default function GuidedSelection() {
         </div>
 
         <div className="flex flex-col px-6 pb-12 sm:px-12 border-t border-[#F4F1EB]/20">
-          <SelectionRow number="01" label="Face shape" href="/find-your-frame?step=face-shape" />
-          <SelectionRow number="02" label="Frame fit" href="/find-your-frame?step=frame-fit" />
-          <SelectionRow number="03" label="Everyday style" href="/find-your-frame?step=everyday-style" />
+          <SelectionRow number="01" label="Face shape" href="/find-your-frame#face-shape" />
+          <SelectionRow number="02" label="Frame fit" href="/find-your-frame#frame-fit" />
+          <SelectionRow number="03" label="Everyday style" href="/find-your-frame#everyday-style" />
         </div>
       </div>
     </section>

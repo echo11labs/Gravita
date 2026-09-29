@@ -1,12 +1,12 @@
 import type { Metadata } from "next";
-import { Inter, Playfair_Display, Jost } from "next/font/google";
+import { Jost, Playfair_Display } from "next/font/google";
 import "./globals.css";
 import Header from "./Header";
 import Footer from "./Footer";
 import MotionMain from "./MotionMain";
 
-const inter = Inter({
-  variable: "--font-inter",
+const jost = Jost({
+  variable: "--font-jost",
   subsets: ["latin"],
   display: "swap",
 });
@@ -14,12 +14,7 @@ const inter = Inter({
 const playfair = Playfair_Display({
   variable: "--font-playfair",
   subsets: ["latin"],
-  display: "swap",
-});
-
-const jost = Jost({
-  variable: "--font-jost",
-  subsets: ["latin"],
+  style: ["normal", "italic"],
   display: "swap",
 });
 
@@ -34,9 +29,9 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en">
+    <html lang="en" data-scroll-behavior="smooth">
       <body
-        className={`${inter.variable} ${playfair.variable} ${jost.variable} antialiased min-h-screen flex flex-col`}
+        className={`${jost.variable} ${playfair.variable} antialiased min-h-screen flex flex-col`}
       >
         <a
           href="#main-content"

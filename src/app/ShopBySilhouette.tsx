@@ -6,6 +6,8 @@ const SHAPES = [
   {
     id: "rectangular",
     name: "Rectangular",
+    tags: ["Structured", "Modern"],
+    desc: "Clean lines and architectural balance for a defined look.",
     image: "/images/frame_rectangular.jpg",
     href: "/eyeglasses?shape=rectangular",
     ariaLabel: "Shop rectangular eyeglasses",
@@ -14,6 +16,8 @@ const SHAPES = [
   {
     id: "round",
     name: "Round",
+    tags: ["Classic", "Academic"],
+    desc: "Soft curves that bring thoughtful proportion to everyday wear.",
     image: "/images/frame_round.jpg",
     href: "/eyeglasses?shape=round",
     ariaLabel: "Shop round eyeglasses",
@@ -22,6 +26,8 @@ const SHAPES = [
   {
     id: "cat-eye",
     name: "Cat-eye",
+    tags: ["Bold", "Elegant"],
+    desc: "An uplifted silhouette that adds instant presence and character.",
     image: "/images/frame_cateye.jpg",
     href: "/eyeglasses?shape=cat-eye",
     ariaLabel: "Shop cat-eye eyeglasses",
@@ -30,6 +36,8 @@ const SHAPES = [
   {
     id: "aviator",
     name: "Aviator",
+    tags: ["Iconic", "Timeless"],
+    desc: "A relaxed, expansive frame with undeniable heritage.",
     image: "/images/frame_aviator.jpg",
     href: "/eyeglasses?shape=aviator",
     ariaLabel: "Shop aviator eyeglasses",
@@ -39,19 +47,19 @@ const SHAPES = [
 
 export default function ShopBySilhouette() {
   return (
-    <section className="w-full bg-background pt-16 pb-16 sm:pt-24 sm:pb-20 lg:pb-24">
+    <section className="w-full bg-background pt-32 pb-16 sm:pt-40 sm:pb-20 lg:pb-24">
       <div className="mx-auto max-w-[1440px] px-6 sm:px-12 lg:px-20">
         
         {/* Header Section */}
         <div className="flex flex-col md:flex-row md:items-end justify-between mb-12 lg:mb-16 gap-6">
           <div className="max-w-2xl space-y-4">
-            <h2 className="text-sm font-sans tracking-widest uppercase text-foreground/70">
+            <h2 className="text-xs font-sans tracking-[0.2em] uppercase text-foreground/50">
               Find your frame
             </h2>
-            <h3 className="font-display text-4xl sm:text-5xl tracking-tight text-foreground leading-[1.1]">
+            <h3 className="font-display text-5xl sm:text-6xl lg:text-[4rem] tracking-tight text-foreground leading-[1.05]">
               Start with a shape.
             </h3>
-            <p className="text-lg text-foreground/80 font-sans max-w-lg">
+            <p className="text-xl text-foreground/70 font-sans max-w-lg mt-4">
               Explore rectangular, round, cat-eye, and aviator frames.
             </p>
           </div>
@@ -69,32 +77,80 @@ export default function ShopBySilhouette() {
           </div>
         </div>
 
-        {/* Grid Section */}
-        <div className="grid grid-cols-2 lg:grid-cols-4 gap-x-4 gap-y-10 sm:gap-x-6 sm:gap-y-12 lg:gap-x-8">
-          {SHAPES.map((shape) => (
+        {/* Mobile Strict Editorial Stack */}
+        <div className="flex flex-col gap-16 lg:hidden pb-8">
+          {SHAPES.map((shape, index) => (
             <Link 
               key={shape.id}
               href={shape.href}
               aria-label={shape.ariaLabel}
-              className="group flex flex-col focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-foreground focus-visible:ring-offset-2 focus-visible:ring-offset-background"
+              className="group flex flex-col focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-foreground"
             >
-              {/* Image Container */}
-              <div data-motion-media className="relative aspect-square w-full overflow-hidden bg-muted mb-4">
+              {/* Image Container (Sharp edges, 4:5 ratio) */}
+              <div className="relative aspect-[4/5] w-full overflow-hidden bg-muted mb-6">
                 <Image
                   src={shape.image}
                   alt={`${shape.name} style eyeglasses`}
                   fill
-                  sizes="(max-width: 768px) 50vw, 25vw"
-                  className={`object-cover object-center transition-transform duration-700 motion-safe:group-hover:scale-[1.03] ${shape.imageScale}`}
+                  sizes="(max-width: 1024px) 100vw, 25vw"
+                  className={`object-cover object-center transition-transform duration-[1.2s] ease-[cubic-bezier(0.25,1,0.5,1)] motion-safe:group-hover:scale-105 ${shape.imageScale}`}
                 />
+                <div className="absolute inset-0 bg-foreground/0 transition-colors duration-700 group-hover:bg-foreground/5" />
+              </div>
+              
+              {/* Editorial Meta block */}
+              <div className="flex flex-col border-t border-foreground/20 pt-4">
+                <div className="flex justify-between items-start mb-2">
+                  <h3 className="font-display text-4xl text-foreground tracking-tight">
+                    {shape.name}
+                  </h3>
+                  <span className="text-[10px] font-sans font-medium tracking-widest uppercase text-foreground/40 mt-2">
+                    0{index + 1} — 0{SHAPES.length}
+                  </span>
+                </div>
+                
+                <p className="font-sans text-sm text-foreground/70 mb-6 leading-relaxed">
+                  {shape.desc}
+                </p>
+
+                <div className="flex items-end justify-between border-b border-foreground/10 pb-4">
+                  <div className="flex gap-2 text-[10px] font-sans tracking-[0.2em] uppercase text-foreground/50">
+                    {shape.tags.join(" / ")}
+                  </div>
+                  <ArrowRight className="h-5 w-5 text-foreground/30 transition-transform duration-500 group-hover:translate-x-2 group-hover:text-accent shrink-0" />
+                </div>
+              </div>
+            </Link>
+          ))}
+        </div>
+
+        {/* Desktop Staggered Grid */}
+        <div className="hidden lg:grid lg:grid-cols-4 gap-x-8 pb-0">
+          {SHAPES.map((shape, index) => (
+            <Link 
+              key={shape.id}
+              href={shape.href}
+              aria-label={shape.ariaLabel}
+              className={`group flex flex-col focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-foreground focus-visible:ring-offset-2 focus-visible:ring-offset-background ${index % 2 !== 0 ? "mt-16" : ""}`}
+            >
+              {/* Image Container */}
+              <div data-motion-media className="relative aspect-[4/5] w-full overflow-hidden bg-muted mb-8">
+                <Image
+                  src={shape.image}
+                  alt={`${shape.name} style eyeglasses`}
+                  fill
+                  sizes="25vw"
+                  className={`object-cover object-center transition-transform duration-[1.2s] ease-[cubic-bezier(0.25,1,0.5,1)] motion-safe:group-hover:scale-105 ${shape.imageScale}`}
+                />
+                <div className="absolute inset-0 bg-foreground/0 transition-colors duration-700 group-hover:bg-foreground/5" />
               </div>
               
               {/* Label */}
-              <div className="flex items-center justify-between w-full">
-                <span className="font-medium text-foreground tracking-wide group-hover:text-accent transition-colors" aria-hidden="true">
+              <div className="flex items-end justify-between w-full border-b border-foreground/10 pb-4">
+                <span className="font-display text-4xl text-foreground tracking-tight group-hover:text-accent transition-colors" aria-hidden="true">
                   {shape.name}
                 </span>
-                <ArrowRight className="h-4 w-4 text-foreground/50 transition-transform duration-300 motion-safe:group-hover:translate-x-1 group-hover:text-accent shrink-0 ml-2" aria-hidden="true" />
+                <ArrowRight className="h-5 w-5 text-foreground/30 transition-transform duration-500 motion-safe:group-hover:translate-x-2 group-hover:text-accent shrink-0 mb-1.5" aria-hidden="true" />
               </div>
             </Link>
           ))}

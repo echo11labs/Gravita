@@ -101,6 +101,9 @@ Do not treat Playfair Display as an "absolutely locked" audit rule. Verify again
 ### Imagery at launch
 The correct standard is: **owner-approved, rights-cleared imagery that accurately represents the business.** A photo session is an excellent path but not the only valid one — licensed stock with comparable eyewear is acceptable with owner approval. Hard constraint: **exact sellable products must be represented by imagery that accurately shows those products.** AI-generated frames cannot represent purchasable inventory at public launch.
 
+### E-Commerce vs. Brand Promotion
+The site has been actively transitioned away from an e-commerce functionality to a brand-promotional brochure experience. All Cart buttons, overlays, and price data have been stripped from the deployment. Do not reintroduce e-commerce logic without an explicit owner directive.
+
 ### Image role summary
 
 | Role | Current | Prototype OK? | Launch requirement |
@@ -120,9 +123,9 @@ The correct standard is: **owner-approved, rights-cleared imagery that accuratel
 3. **Warm ivory / near-black palette** — No gradients.
 4. **Rectangular controls** — No rounded corners anywhere in the UI.
 5. **Search overlay** — Fixed full-viewport, `z-[100]`, ivory, body-scroll lock.
-6. **Cart empty state** — "Your bag is empty. / Explore frames and find a place to start."
+6. **E-commerce features** — The site is a promotional brochure. Do not add Cart, Add to Cart, or Checkout features unless explicitly directed.
 7. **Footer nav** — Four internal links + Instagram with `sr-only` new-tab label. No fabricated legal links.
-8. **Product detail public-safe rule** — No price, SKU, stock, lens option, or Add to Cart without verified data.
+8. **Product detail public-safe rule** — No price, SKU, stock, lens option, or Add to Cart (per business promotion mandate).
 9. **`motion-safe:` on all hover animation** — Never remove.
 10. **Find Your Frame routing** — No face-shape-to-filter routing without owner-approved user-choice mechanism.
 

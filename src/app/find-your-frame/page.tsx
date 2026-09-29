@@ -1,9 +1,13 @@
 "use client";
 
-import { Suspense } from "react";
+import { useEffect, useRef } from "react";
 import Link from "next/link";
+import Image from "next/image";
 import { ArrowRight } from "lucide-react";
-import { useSearchParams } from "next/navigation";
+import gsap from "gsap";
+import { ScrollTrigger } from "gsap/ScrollTrigger";
+
+gsap.registerPlugin(ScrollTrigger);
 
 const STEPS = [
   {
@@ -12,7 +16,10 @@ const STEPS = [
     title: "Face shape",
     description: "Explore shapes that balance and complement your features.",
     nextTitle: "Discover shapes",
-    nextText: "Our collection offers considered geometry—from classic rectangular frames to soft, balanced curves. Browse the full range to see how each silhouette is proportioned.",
+    nextText: "Our collection offers balanced geometry—from classic rectangular frames to soft curves. Browse the full range to see how each silhouette is proportioned.",
+    image: "/images/guide-face-shape.webp",
+    imageAlt: "Front-facing portrait showing how a clear optical frame relates to facial proportions",
+    imagePosition: "object-center",
   },
   {
     id: "frame-fit",
@@ -21,6 +28,9 @@ const STEPS = [
     description: "Start with the proportions and feel that suit your day.",
     nextTitle: "Find your fit",
     nextText: "Comfort begins with precise measurements. Explore our frames, noting bridge widths and temple lengths designed to provide a secure, effortless fit.",
+    image: "/images/guide-frame-fit.webp",
+    imageAlt: "Optician adjusting the temple of a clear-lens frame for a precise, comfortable fit",
+    imagePosition: "object-center",
   },
   {
     id: "everyday-style",
@@ -29,66 +39,141 @@ const STEPS = [
     description: "Browse frames by the way you want to wear them.",
     nextTitle: "Explore styles",
     nextText: "Whether you prefer subtle understatement or confident presence, our collection is curated to match your aesthetic. Discover frames defined by their finish and material.",
+    image: "/images/guide-everyday-style.webp",
+    imageAlt: "Reader wearing tortoiseshell eyeglasses during a quiet morning in a bookshop cafe",
+    imagePosition: "object-[50%_42%]",
   },
 ];
 
-function GuideContent() {
-  const searchParams = useSearchParams();
-  const requestedStep = searchParams.get("step");
-  const currentStep = STEPS.some((step) => step.id === requestedStep)
-    ? requestedStep
-    : STEPS[0].id;
+export default function FindYourFramePage() {
+  const containerRef = useRef<HTMLDivElement>(null);
+
+  useEffect(() => {
+    if (!containerRef.current) return;
+    const reduceMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+    if (reduceMotion) return;
+
+    const ctx = gsap.context(() => {
+      // Hero Animation
+      const heroTl = gsap.timeline();
+      heroTl.fromTo(
+        ".hero-element",
+        { y: 30, autoAlpha: 0 },
+        { y: 0, autoAlpha: 1, duration: 1.2, stagger: 0.15, ease: "power3.out" }
+      );
+
+      // Parallax Stack Animations
+      gsap.utils.toArray<HTMLElement>(".parallax-section").forEach((section) => {
+        const image = section.querySelector(".parallax-image");
+        const content = section.querySelector(".parallax-content");
+
+        // 1. True Parallax on the image (moves slower than the scroll)
+        // Image needs to be larger than the container for this to work without showing edges
+        gsap.to(image, {
+          yPercent: 15, // Move image down as we scroll down
+          ease: "none",
+          scrollTrigger: {
+            trigger: section,
+            start: "top bottom", 
+            end: "bottom top",
+            scrub: true
+          }
+        });
+
+        // 2. Fade up the text content when the section enters
+        gsap.fromTo(content,
+          { y: 60, autoAlpha: 0 },
+          { 
+            y: 0, 
+            autoAlpha: 1, 
+            duration: 1.2, 
+            ease: "power3.out",
+            scrollTrigger: {
+              trigger: section,
+              start: "top 60%", // Trigger when top of section hits 60% down the viewport
+              toggleActions: "play none none reverse"
+            }
+          }
+        );
+      });
+    }, containerRef);
+
+    return () => ctx.revert();
+  }, []);
 
   return (
-    <div className="flex flex-col border-t border-[#F4F1EB]/20">
-      {STEPS.map((step) => {
-        const isActive = currentStep === step.id;
+    <main ref={containerRef} className="bg-[#171917] text-[#F4F1EB]">
+      
+      {/* 100vh Hero Section */}
+      <section className="relative w-full h-[100svh] flex flex-col items-center justify-center text-center px-6">
+        <div className="max-w-4xl mx-auto space-y-8 mt-16">
+          <h1 className="hero-element text-xs sm:text-sm font-sans tracking-[0.2em] uppercase text-[#F4F1EB]/50">
+            Find your frame
+          </h1>
+          <h2 className="hero-element font-display text-[clamp(3.5rem,7vw,7rem)] tracking-tight text-[#F4F1EB] leading-[1.05]">
+            Start with what<br />feels right.
+          </h2>
+          <p className="hero-element text-xl sm:text-2xl text-[#F4F1EB]/70 font-sans max-w-2xl mx-auto leading-relaxed">
+            A guide to finding clarity in proportion, fit, and style.
+          </p>
+        </div>
         
-        return (
-          <div key={step.id} className="flex flex-col border-b border-[#F4F1EB]/20">
-            <Link 
-              href={`/find-your-frame?step=${step.id}`}
-              className={`
-                group flex items-start sm:items-center justify-between py-8 sm:py-12 transition-colors duration-300
-                focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#F4F1EB] focus-visible:ring-offset-2 focus-visible:ring-offset-[#171917]
-                ${isActive ? "text-[#F4F1EB]" : "text-[#F4F1EB]/50 hover:text-[#F4F1EB]/80"}
-              `}
-              aria-current={isActive ? "step" : undefined}
-            >
-              <div className="flex flex-col sm:flex-row sm:items-baseline sm:space-x-8 lg:space-x-12 w-full pr-8">
-                <span className="text-sm font-sans tracking-widest mb-4 sm:mb-0 w-8 shrink-0">
-                  {step.number}
-                </span>
-                
-                <div className="flex flex-col space-y-4 sm:max-w-2xl">
-                  <h2 className={`font-display text-3xl sm:text-4xl tracking-tight transition-colors ${isActive ? "text-[#F4F1EB]" : "text-[#F4F1EB]/80 group-hover:text-[#F4F1EB]"}`}>
-                    {step.title}
-                  </h2>
-                  <p className={`font-sans text-base sm:text-lg leading-relaxed transition-colors ${isActive ? "text-[#F4F1EB]/90" : "text-[#F4F1EB]/60 group-hover:text-[#F4F1EB]/80"}`}>
-                    {step.description}
-                  </p>
-                </div>
-              </div>
-              
-              <div className="shrink-0 self-center">
-                <div className={`h-3 w-3 rounded-full transition-all duration-300 ${isActive ? "bg-[#F4F1EB]" : "bg-transparent border border-[#F4F1EB]/30 group-hover:border-[#F4F1EB]/60"}`} aria-hidden="true" />
-              </div>
-            </Link>
+        {/* Scroll Indicator */}
+        <div className="hero-element absolute bottom-12 left-1/2 -translate-x-1/2 flex flex-col items-center gap-4">
+          <span className="text-[10px] uppercase tracking-[0.3em] text-[#F4F1EB]/30">Scroll</span>
+          <div className="w-[1px] h-16 bg-[#F4F1EB]/10 overflow-hidden relative">
+            <div className="absolute top-0 left-0 w-full h-1/2 bg-[#F4F1EB]/50 animate-[scroll-down_2s_ease-in-out_infinite]" />
+          </div>
+        </div>
+      </section>
 
-            {/* Active State Details */}
-            {isActive && (
-              <div className="pl-0 sm:pl-[4.5rem] lg:pl-[5.5rem] pb-10 sm:pb-12 pr-8 animate-in fade-in slide-in-from-top-4 duration-500">
-                <div className="bg-[#1f221f] p-8 sm:p-10 border border-[#F4F1EB]/10">
-                  <h3 className="font-display text-2xl tracking-tight text-[#F4F1EB] mb-4">
-                    {step.nextTitle}
-                  </h3>
-                  <p className="font-sans text-[#F4F1EB]/80 leading-relaxed max-w-2xl mb-8">
-                    {step.nextText}
-                  </p>
-                  
-                  <Link 
+      {/* Full-Bleed Parallax Stack */}
+      {STEPS.map((step) => (
+        <section 
+          key={step.id} 
+          id={step.id}
+          className="parallax-section relative w-full h-[100svh] overflow-hidden flex flex-col justify-end"
+        >
+          {/* Image Background (Taller than viewport for parallax) */}
+          <div className="absolute inset-x-0 -top-[10%] h-[120%] w-full z-0 pointer-events-none">
+            <Image
+              src={step.image}
+              alt={step.imageAlt}
+              fill
+              sizes="100vw"
+              className={`parallax-image object-cover ${step.imagePosition}`}
+            />
+            {/* Architectural Overlay for Text Legibility (No gradients, pure solid opacity) */}
+            <div className="absolute inset-0 bg-[#171917]/50 mix-blend-multiply" />
+            <div className="absolute inset-0 bg-black/30" />
+          </div>
+
+          {/* Foreground Text Content */}
+          <div className="relative z-10 w-full max-w-[1440px] mx-auto px-6 sm:px-12 lg:px-20 pb-24 sm:pb-32 parallax-content">
+            <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-16">
+              
+              {/* Left Title Area */}
+              <div className="lg:col-span-5 flex flex-col justify-end">
+                <span className="text-sm font-sans tracking-[0.2em] uppercase text-[#F4F1EB]/50 mb-6 block">
+                  Step {step.number}
+                </span>
+                <h3 className="font-display text-[clamp(3.5rem,5vw,5.5rem)] tracking-tight text-[#F4F1EB] leading-[1.05]">
+                  {step.title}
+                </h3>
+              </div>
+
+              {/* Right Content Area */}
+              <div className="lg:col-span-6 lg:col-start-7 flex flex-col justify-end space-y-8">
+                <h4 className="font-display text-2xl sm:text-3xl tracking-tight text-[#F4F1EB]">
+                  {step.nextTitle}
+                </h4>
+                <p className="font-sans text-xl sm:text-2xl text-[#F4F1EB]/90 leading-relaxed max-w-xl">
+                  {step.nextText}
+                </p>
+                <div className="pt-4">
+                  <Link
                     href="/eyeglasses"
-                    className="group inline-flex items-center text-[#F4F1EB] font-medium tracking-wide transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#F4F1EB] focus-visible:ring-offset-2 focus-visible:ring-offset-[#1f221f]"
+                    className="group inline-flex items-center text-[#F4F1EB] font-medium tracking-wide transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#F4F1EB] focus-visible:ring-offset-2 focus-visible:ring-offset-[#171917]"
                   >
                     <span className="underline underline-offset-4 decoration-[#F4F1EB]/30 group-hover:decoration-[#F4F1EB] transition-colors">
                       Browse all eyeglasses
@@ -97,34 +182,20 @@ function GuideContent() {
                   </Link>
                 </div>
               </div>
-            )}
+
+            </div>
           </div>
-        );
-      })}
-    </div>
-  );
-}
+        </section>
+      ))}
 
-export default function FindYourFramePage() {
-  return (
-    <div className="min-h-screen bg-[#171917] text-[#F4F1EB] pt-16 sm:pt-24 pb-32">
-      <div className="max-w-4xl mx-auto px-6 sm:px-12 lg:px-20">
-        <div className="space-y-6 mb-16 sm:mb-24">
-          <h1 className="text-xs sm:text-sm font-sans tracking-[0.2em] uppercase text-[#F4F1EB]/70">
-            Find your frame
-          </h1>
-          <h2 className="font-display text-[clamp(3rem,5vw,5rem)] tracking-tight text-[#F4F1EB] leading-[1.05]">
-            Start with what feels right.
-          </h2>
-          <p className="text-lg sm:text-xl text-[#F4F1EB]/80 font-sans max-w-xl">
-            Choose a starting point and explore frames at your own pace.
-          </p>
-        </div>
-
-        <Suspense fallback={<div className="h-[600px] animate-pulse bg-[#1f221f] rounded-sm" />}>
-          <GuideContent />
-        </Suspense>
-      </div>
-    </div>
+      {/* Global CSS animation for scroll indicator */}
+      <style jsx global>{`
+        @keyframes scroll-down {
+          0% { transform: translateY(-100%); opacity: 0; }
+          50% { opacity: 1; }
+          100% { transform: translateY(200%); opacity: 0; }
+        }
+      `}</style>
+    </main>
   );
 }

@@ -57,7 +57,7 @@ export default function AboutPage() {
                 alt="Person wearing understated optical eyeglasses in a quiet architectural setting with warm natural light"
                 fill
                 priority
-                sizes="(min-width: 640px) 100vw"
+                sizes="(min-width: 1344px) 1280px, calc(100vw - 3rem)"
                 className="object-cover object-[60%_30%]"
               />
             </div>
@@ -68,7 +68,7 @@ export default function AboutPage() {
                 alt="Person wearing understated optical eyeglasses in a quiet architectural setting with warm natural light"
                 fill
                 priority
-                sizes="100vw"
+                sizes="calc(100vw - 2rem)"
                 className="object-cover object-[65%_25%]"
               />
             </div>
@@ -178,13 +178,13 @@ export default function AboutPage() {
         {/* Desktop: 5/12 image + 7/12 content split — reversed proportion from EditorialPanel */}
         <div className="hidden lg:flex flex-row min-h-[640px]">
           {/* Image */}
-          <div className="w-5/12 relative min-h-[640px]">
+          <div data-motion-media className="w-5/12 relative min-h-[640px] overflow-hidden">
             <Image
-              src="/images/about_editorial.jpg"
-              alt="Person in a quiet architectural space wearing Gravita eyewear"
+              src="/images/about-everyday-presence.webp"
+              alt="Person wearing eyeglasses while gathering a jacket and keys at the start of the day"
               fill
               sizes="42vw"
-              className="object-cover object-[80%_20%]"
+              className="object-cover object-center"
             />
           </div>
           {/* Content */}
@@ -224,13 +224,13 @@ export default function AboutPage() {
 
         {/* Mobile: image then content */}
         <div className="flex flex-col lg:hidden">
-          <div className="relative w-full aspect-[3/2]">
+          <div data-motion-media className="relative w-full aspect-[4/5] overflow-hidden">
             <Image
-              src="/images/about_editorial.jpg"
-              alt="Person in a quiet architectural space wearing Gravita eyewear"
+              src="/images/about-everyday-presence.webp"
+              alt="Person wearing eyeglasses while gathering a jacket and keys at the start of the day"
               fill
               sizes="100vw"
-              className="object-cover object-[70%_20%]"
+              className="object-cover object-center"
             />
           </div>
           <div className="px-4 sm:px-6 py-16 bg-background flex flex-col space-y-8 max-w-2xl">
